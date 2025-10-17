@@ -5,9 +5,9 @@ from datetime import datetime, time
 from typing import Dict, Any
 import asyncio
 
-from aiogram import Bot, Dispatcher, types, F
-from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram import Bot, Dispatcher, types
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.utils import executor
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from dotenv import load_dotenv
@@ -29,7 +29,8 @@ if not BOT_TOKEN:
 
 # Инициализация бота и диспетчера
 bot = Bot(token=BOT_TOKEN)
-dp = Dispatcher()
+storage = MemoryStorage()
+dp = Dispatcher(bot, storage=storage)
 
 # Планировщик для уведомлений
 scheduler = AsyncIOScheduler()
@@ -103,8 +104,11 @@ async def send_evening_message(user_id: str):
 def schedule_user_notifications(user_id: str, wakeup_time: str, sleep_time: str):
     """Планирует уведомления для пользователя"""
     # Удаляем старые задачи для этого пользователя
-    scheduler.remove_job(f"morning_{user_id}", jobstore=None)
-    scheduler.remove_job(f"evening_{user_id}", jobstore=None)
+    try:
+        scheduler.remove_job(f"morning_{user_id}", jobstore=None)
+        scheduler.remove_job(f"evening_{user_id}", jobstore=None)
+    except:
+        pass
     
     # Парсим время
     wakeup_hour, wakeup_minute = map(int, wakeup_time.split(":"))
@@ -131,8 +135,8 @@ def schedule_user_notifications(user_id: str, wakeup_time: str, sleep_time: str)
     logger.info(f"Уведомления запланированы для пользователя {user_id}: утро {wakeup_time}, вечер {sleep_time}")
 
 
-@dp.message(Command("start"))
-async def cmd_start(message: Message):
+@dp.message_handler(commands=['start'])
+async def cmd_start(message: types.Message):
     """Обработчик команды /start"""
     user_id = str(message.from_user.id)
     
@@ -160,8 +164,8 @@ async def cmd_start(message: Message):
         )
 
 
-@dp.message(F.text.regexp(r'^\d{2}:\d{2}$'))
-async def handle_time_input(message: Message):
+@dp.message_handler(lambda message: message.text and message.text.count(':') == 1 and len(message.text.split(':')) == 2)
+async def handle_time_input(message: types.Message):
     """Обработчик ввода времени"""
     user_id = str(message.from_user.id)
     time_str = message.text
@@ -223,8 +227,8 @@ async def handle_time_input(message: Message):
                 )
 
 
-@dp.message()
-async def handle_other_messages(message: Message):
+@dp.message_handler()
+async def handle_other_messages(message: types.Message):
     """Обработчик всех остальных сообщений"""
     await message.answer(
         "Я понимаю только время в формате ЧЧ:ММ (например, 07:30)\n\n"
@@ -232,7 +236,7 @@ async def handle_other_messages(message: Message):
     )
 
 
-async def on_startup():
+async def on_startup(dp):
     """Функция запуска бота"""
     logger.info("Запуск бота...")
     
@@ -255,27 +259,13 @@ async def on_startup():
     logger.info("Планировщик запущен")
 
 
-async def on_shutdown():
+async def on_shutdown(dp):
     """Функция остановки бота"""
     logger.info("Остановка бота...")
     scheduler.shutdown()
     logger.info("Планировщик остановлен")
 
 
-async def main():
-    """Главная функция"""
-    # Регистрируем обработчики запуска и остановки
-    dp.startup.register(on_startup)
-    dp.shutdown.register(on_shutdown)
-    
-    # Запускаем бота
-    try:
-        await dp.start_polling(bot)
-    except Exception as e:
-        logger.error(f"Ошибка при запуске бота: {e}")
-    finally:
-        await bot.session.close()
-
-
 if __name__ == "__main__":
-    asyncio.run(main())
+    # Запускаем бота
+    executor.start_polling(dp, on_startup=on_startup, on_shutdown=on_shutdown)
