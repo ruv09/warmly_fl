@@ -17,7 +17,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       backgroundColor: Colors.blue[50],
       appBar: AppBar(
-        title: Text('Настройка времени'),
+        title: Text('Настройка Ватсона'),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -31,7 +31,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   // Заголовок
                   Text(
-                    'Когда вы хотите получать сообщения?',
+                    'Когда получать маркетинговые уведомления?',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -42,7 +42,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   SizedBox(height: 8),
                   
                   Text(
-                    'Выберите удобное время для утренних и вечерних уведомлений',
+                    'Выберите удобное время для утренних и вечерних маркетинговых уведомлений',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey[600],
@@ -54,8 +54,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   // Утреннее время
                   _buildTimeCard(
                     icon: Icons.wb_sunny,
-                    title: 'Утренние сообщения',
-                    subtitle: 'Время для важных уведомлений',
+                    title: 'Утренние маркетинговые уведомления',
+                    subtitle: 'Время для важных маркетинговых уведомлений',
                     time: _morningTime,
                     onTap: () => _selectTime(context, true),
                     color: Colors.orange,
@@ -66,8 +66,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   // Вечернее время
                   _buildTimeCard(
                     icon: Icons.nightlight_round,
-                    title: 'Вечерние сообщения',
-                    subtitle: 'Время для итогов дня',
+                    title: 'Вечерние маркетинговые уведомления',
+                    subtitle: 'Время для итогов маркетинговых кампаний',
                     time: _eveningTime,
                     onTap: () => _selectTime(context, false),
                     color: Colors.indigo,
@@ -272,7 +272,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       // Показываем сообщение об успехе
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Настройки сохранены! Все сообщения удалены.'),
+          content: Text('Настройки Ватсона сохранены! Все сообщения удалены.'),
           backgroundColor: Colors.green,
           duration: Duration(seconds: 2),
         ),
