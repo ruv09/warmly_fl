@@ -1,0 +1,533 @@
+2025-10-17 14:05:49,790 INFO warmly-bot: Запуск бота (long polling)…
+2025-10-17 14:05:50,124 INFO telegram.ext.Application: Application started
+2025-10-17 14:05:50,231 INFO warmly-bot: Бот запущен и слушает обновления
+2025-10-17 14:05:53,849 ERROR telegram.ext.Updater: Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 753, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 747, in do_action
+    return action_cb_task.result()
+           ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 377, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 649, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 4366, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 623, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 355, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 652, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 201, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 384, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-17 14:05:58,279 ERROR telegram.ext.Updater: Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 753, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 747, in do_action
+    return action_cb_task.result()
+           ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 377, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 649, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 4366, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 623, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 355, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 652, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 201, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 384, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-17 14:06:03,186 ERROR telegram.ext.Updater: Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 753, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 747, in do_action
+    return action_cb_task.result()
+           ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 377, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 649, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 4366, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 623, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 355, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 652, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 201, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 384, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-17 14:06:08,900 ERROR telegram.ext.Updater: Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 753, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 747, in do_action
+    return action_cb_task.result()
+           ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 377, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 649, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 4366, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 623, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 355, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 652, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 201, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 384, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-17 14:06:15,718 ERROR telegram.ext.Updater: Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 753, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 747, in do_action
+    return action_cb_task.result()
+           ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 377, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 649, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 4366, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 623, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 355, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 652, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 201, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 384, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-17 14:06:24,425 ERROR telegram.ext.Updater: Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 753, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 747, in do_action
+    return action_cb_task.result()
+           ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 377, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 649, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 4366, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 623, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 355, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 652, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 201, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 384, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-17 14:06:35,726 ERROR telegram.ext.Updater: Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 753, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 747, in do_action
+    return action_cb_task.result()
+           ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 377, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 649, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 4366, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 623, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 355, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 652, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 201, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 384, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-17 14:06:50,737 ERROR telegram.ext.Updater: Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 753, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 747, in do_action
+    return action_cb_task.result()
+           ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 377, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 649, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 4366, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 623, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 355, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 652, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 201, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 384, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-17 14:07:11,554 ERROR telegram.ext.Updater: Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 753, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 747, in do_action
+    return action_cb_task.result()
+           ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 377, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 649, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 4366, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 623, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 355, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 652, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 201, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 384, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2025-10-17 14:07:40,810 ERROR telegram.ext.Updater: Exception happened while polling for updates.
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 753, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 747, in do_action
+    return action_cb_task.result()
+           ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_updater.py", line 377, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 649, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 4366, in get_updates
+    await self._post(
+    ^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    ),
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 623, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/ext/_extbot.py", line 355, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/_bot.py", line 652, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 201, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/home/ubuntu/.local/lib/python3.13/site-packages/telegram/request/_baserequest.py", line 384, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
