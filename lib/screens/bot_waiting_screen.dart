@@ -108,12 +108,12 @@ class _BotWaitingScreenState extends State<BotWaitingScreen> {
   Future<void> _sendMorningMessage() async {
     await _notifications.show(
       1,
-      'Доброе утро! Ватсон здесь 🤖',
-      'Время для утренних маркетинговых уведомлений. Проверьте WhatsApp-лендинги!',
+      'Доброе утро!',
+      'Время для важных уведомлений. Проверьте свои сообщения.',
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'morning_messages',
-          'Утренние маркетинговые уведомления',
+          'Утренние сообщения',
           importance: Importance.high,
           priority: Priority.high,
         ),
@@ -124,12 +124,12 @@ class _BotWaitingScreenState extends State<BotWaitingScreen> {
   Future<void> _sendEveningMessage() async {
     await _notifications.show(
       2,
-      'Добрый вечер! Ватсон здесь 🤖',
-      'Время для вечерних маркетинговых итогов. Проверьте результаты кампаний!',
+      'Добрый вечер!',
+      'Время для итогов дня. Проверьте свои сообщения.',
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'evening_messages',
-          'Вечерние маркетинговые уведомления',
+          'Вечерние сообщения',
           importance: Importance.high,
           priority: Priority.high,
         ),
@@ -155,7 +155,7 @@ class _BotWaitingScreenState extends State<BotWaitingScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFFFF5EE),
       appBar: AppBar(
-        title: const Text('Ватсон 🤖'),
+        title: const Text('Бот 🤖'),
         backgroundColor: const Color(0xFFE67E6B),
         foregroundColor: Colors.white,
         elevation: 0,
@@ -208,7 +208,7 @@ class _BotWaitingScreenState extends State<BotWaitingScreen> {
             const SizedBox(height: 20),
             
             const Text(
-              'Я буду присылать вам маркетинговые уведомления по расписанию',
+              'Я буду присылать вам сообщения по расписанию',
               style: TextStyle(
                 fontSize: 18,
                 color: Color(0xFF8B4513),
@@ -237,7 +237,7 @@ class _BotWaitingScreenState extends State<BotWaitingScreen> {
                   if (_morningTime != null)
                     _buildTimeInfo(
                       icon: Icons.wb_sunny,
-                      title: 'Утренние маркетинговые уведомления',
+                      title: 'Утренние сообщения',
                       time: '${_morningTime!.hour.toString().padLeft(2, '0')}:${_morningTime!.minute.toString().padLeft(2, '0')}',
                       color: Colors.orange,
                     ),
@@ -248,7 +248,7 @@ class _BotWaitingScreenState extends State<BotWaitingScreen> {
                   if (_eveningTime != null)
                     _buildTimeInfo(
                       icon: Icons.nightlight_round,
-                      title: 'Вечерние маркетинговые уведомления',
+                      title: 'Вечерние сообщения',
                       time: '${_eveningTime!.hour.toString().padLeft(2, '0')}:${_eveningTime!.minute.toString().padLeft(2, '0')}',
                       color: Colors.indigo,
                     ),

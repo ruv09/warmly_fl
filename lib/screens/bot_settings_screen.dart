@@ -18,7 +18,7 @@ class _BotSettingsScreenState extends State<BotSettingsScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFFFF5EE),
       appBar: AppBar(
-        title: const Text('Настройка Ватсона'),
+        title: const Text('Настройка бота'),
         backgroundColor: const Color(0xFFE67E6B),
         foregroundColor: Colors.white,
         elevation: 0,
@@ -32,7 +32,7 @@ class _BotSettingsScreenState extends State<BotSettingsScreen> {
                 children: [
                   // Заголовок
                   const Text(
-                    'Когда получать маркетинговые уведомления?',
+                    'Когда вы хотите получать сообщения?',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -43,7 +43,7 @@ class _BotSettingsScreenState extends State<BotSettingsScreen> {
                   const SizedBox(height: 8),
                   
                   const Text(
-                    'Выберите удобное время для утренних и вечерних маркетинговых уведомлений',
+                    'Выберите удобное время для утренних и вечерних уведомлений',
                     style: TextStyle(
                       fontSize: 16,
                       color: Color(0xFF8B4513),
@@ -55,8 +55,8 @@ class _BotSettingsScreenState extends State<BotSettingsScreen> {
                   // Утреннее время
                   _buildTimeCard(
                     icon: Icons.wb_sunny,
-                    title: 'Утренние маркетинговые уведомления',
-                    subtitle: 'Время для важных маркетинговых уведомлений',
+                    title: 'Утренние сообщения',
+                    subtitle: 'Время для важных уведомлений',
                     time: _morningTime,
                     onTap: () => _selectTime(context, true),
                     color: Colors.orange,
@@ -67,8 +67,8 @@ class _BotSettingsScreenState extends State<BotSettingsScreen> {
                   // Вечернее время
                   _buildTimeCard(
                     icon: Icons.nightlight_round,
-                    title: 'Вечерние маркетинговые уведомления',
-                    subtitle: 'Время для итогов маркетинговых кампаний',
+                    title: 'Вечерние сообщения',
+                    subtitle: 'Время для итогов дня',
                     time: _eveningTime,
                     onTap: () => _selectTime(context, false),
                     color: Colors.indigo,
@@ -274,7 +274,7 @@ class _BotSettingsScreenState extends State<BotSettingsScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Настройки Ватсона сохранены! Все сообщения удалены.'),
+            content: Text('Настройки бота сохранены! Все сообщения удалены.'),
             backgroundColor: Colors.green,
             duration: Duration(seconds: 2),
           ),
