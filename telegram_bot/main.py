@@ -24,7 +24,7 @@ from database import Database
 from scheduler import NotificationScheduler
 from phrases import Phrases
 from config import config
-from logger import get_logger, log_startup, log_shutdown, log_error, log_user_action, log_bot_action
+from logger import get_logger, log_exception, log_performance
 
 # Настройка логирования
 logger = get_logger()
@@ -394,7 +394,7 @@ Warmly — это твоё место для поддержки и добрых 
     def run(self):
         """Запустить бота"""
         try:
-            log_startup()
+            logger.info("🚀 Бот запущен")
             
             # Создаём приложение
             self.application = Application.builder().token(self.token).build()
@@ -418,13 +418,13 @@ Warmly — это твоё место для поддержки и добрых 
             self._setup_signal_handlers()
             
             self.running = True
-            log_bot_action("Бот запущен", "Ожидание сообщений...")
+            logger.info("Бот запущен - ожидание сообщений...")
             
             # Запускаем бота
             self.application.run_polling()
             
         except Exception as e:
-            log_error(e, "Ошибка при запуске бота")
+            logger.error(f"Ошибка при запуске бота: {e}")
             raise
         finally:
             self._shutdown()
@@ -432,7 +432,7 @@ Warmly — это твоё место для поддержки и добрых 
     def _setup_signal_handlers(self):
         """Настройка обработчиков сигналов"""
         def signal_handler(signum, frame):
-            log_bot_action("Получен сигнал завершения", f"Сигнал: {signum}")
+            logger.info(f"Получен сигнал завершения: {signum}")
             self._shutdown()
             sys.exit(0)
         
@@ -442,7 +442,7 @@ Warmly — это твоё место для поддержки и добрых 
     def _shutdown(self):
         """Корректное завершение работы бота"""
         if self.running:
-            log_bot_action("Завершение работы бота", "Остановка сервисов...")
+            logger.info("Завершение работы бота - остановка сервисов...")
             self.running = False
             
             if self.scheduler:
@@ -472,7 +472,7 @@ def main():
         sys.exit(0)
         
     except Exception as e:
-        log_error(e, "Критическая ошибка")
+        logger.error(f"Критическая ошибка: {e}")
         print(f"❌ Критическая ошибка: {e}")
         sys.exit(1)
 

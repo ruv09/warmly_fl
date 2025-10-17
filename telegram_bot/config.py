@@ -7,6 +7,21 @@
 import os
 from typing import Dict, Any
 
+# Загружаем переменные из .env файла
+def load_env_file():
+    """Загружает переменные из .env файла"""
+    env_file = '.env'
+    if os.path.exists(env_file):
+        with open(env_file, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and '=' in line:
+                    key, value = line.split('=', 1)
+                    os.environ[key] = value
+
+# Загружаем .env файл при импорте модуля
+load_env_file()
+
 class Config:
     """Класс конфигурации бота"""
     
