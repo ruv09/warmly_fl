@@ -1,117 +1,301 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'waiting_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
-
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  _SettingsScreenState createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  String tzMode = 'auto';
-  TimeOfDay sleepTime = const TimeOfDay(hour: 23, minute: 0);
-  bool alarmEnabled = false;
-  TimeOfDay alarmTime = const TimeOfDay(hour: 7, minute: 30);
-  String language = 'ru';
-  bool sounds = true;
-  String alarmType = 'soft'; // soft | standard
-  bool pushMorning = true;
-  bool pushEvening = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _load();
-  }
-
-  Future<void> _load() async {
-    final p = await SharedPreferences.getInstance();
-    setState(() {
-      tzMode = p.getString('tz_mode') ?? 'auto';
-      sleepTime = TimeOfDay(hour: p.getInt('sleep_h') ?? 23, minute: p.getInt('sleep_m') ?? 0);
-      alarmEnabled = p.getBool('alarm_enabled') ?? false;
-      alarmTime = TimeOfDay(hour: p.getInt('alarm_h') ?? 7, minute: p.getInt('alarm_m') ?? 30);
-      language = p.getString('lang') ?? 'ru';
-      sounds = p.getBool('sounds') ?? true;
-      alarmType = p.getString('alarm_type') ?? 'soft';
-      pushMorning = p.getBool('push_morning') ?? true;
-      pushEvening = p.getBool('push_evening') ?? true;
-    });
-  }
-
-  Future<void> _save() async {
-    final p = await SharedPreferences.getInstance();
-    await p.setString('tz_mode', tzMode);
-    await p.setInt('sleep_h', sleepTime.hour);
-    await p.setInt('sleep_m', sleepTime.minute);
-    await p.setBool('alarm_enabled', alarmEnabled);
-    await p.setInt('alarm_h', alarmTime.hour);
-    await p.setInt('alarm_m', alarmTime.minute);
-    await p.setString('lang', language);
-    await p.setBool('sounds', sounds);
-    await p.setString('alarm_type', alarmType);
-    await p.setBool('push_morning', pushMorning);
-    await p.setBool('push_evening', pushEvening);
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Сохранено')));
-    }
-  }
+  TimeOfDay _morningTime = TimeOfDay(hour: 7, minute: 0);
+  TimeOfDay _eveningTime = TimeOfDay(hour: 23, minute: 30);
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Настройки')),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          const Text('Часовой пояс'),
-          RadioListTile(value: 'auto', groupValue: tzMode, title: const Text('Автоматически'), onChanged: (v) => setState(() => tzMode = v as String)),
-          RadioListTile(value: 'manual', groupValue: tzMode, title: const Text('Вручную'), onChanged: (v) => setState(() => tzMode = v as String)),
-          const Divider(),
-
-          ListTile(
-            title: const Text('Время отбоя'),
-            subtitle: Text(sleepTime.format(context)),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () async {
-              final picked = await showTimePicker(context: context, initialTime: sleepTime);
-              if (picked != null) setState(() => sleepTime = picked);
-            },
-          ),
-
-          SwitchListTile(value: alarmEnabled, onChanged: (v) => setState(() => alarmEnabled = v), title: const Text('Будильник')),
-          if (alarmEnabled)
-            ListTile(
-              title: const Text('Время будильника'),
-              subtitle: Text(alarmTime.format(context)),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () async {
-                final picked = await showTimePicker(context: context, initialTime: alarmTime);
-                if (picked != null) setState(() => alarmTime = picked);
-              },
+      backgroundColor: Colors.blue[50],
+      appBar: AppBar(
+        title: Text('Настройка времени'),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: EdgeInsets.all(24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Заголовок
+                  Text(
+                    'Когда вы хотите получать сообщения?',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue[800],
+                    ),
+                  ),
+                  
+                  SizedBox(height: 8),
+                  
+                  Text(
+                    'Выберите удобное время для утренних и вечерних уведомлений',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  
+                  SizedBox(height: 40),
+                  
+                  // Утреннее время
+                  _buildTimeCard(
+                    icon: Icons.wb_sunny,
+                    title: 'Утренние сообщения',
+                    subtitle: 'Время для важных уведомлений',
+                    time: _morningTime,
+                    onTap: () => _selectTime(context, true),
+                    color: Colors.orange,
+                  ),
+                  
+                  SizedBox(height: 20),
+                  
+                  // Вечернее время
+                  _buildTimeCard(
+                    icon: Icons.nightlight_round,
+                    title: 'Вечерние сообщения',
+                    subtitle: 'Время для итогов дня',
+                    time: _eveningTime,
+                    onTap: () => _selectTime(context, false),
+                    color: Colors.indigo,
+                  ),
+                  
+                  SizedBox(height: 40),
+                  
+                  // Информация о приватности
+                  Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.green[50],
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.green[200]!),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.security,
+                          color: Colors.green[600],
+                          size: 24,
+                        ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'После настройки все сообщения будут удалены для обеспечения вашей приватности',
+                            style: TextStyle(
+                              color: Colors.green[700],
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  
+                  SizedBox(height: 40),
+                  
+                  // Кнопка сохранения
+                  SizedBox(
+                    width: double.infinity,
+                    height: 56,
+                    child: ElevatedButton(
+                      onPressed: _saveSettings,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 8,
+                      ),
+                      child: Text(
+                        'Сохранить настройки',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
+    );
+  }
 
-          const Divider(),
-          SwitchListTile(value: sounds, onChanged: (v) => setState(() => sounds = v), title: const Text('Звуки')),
-          ListTile(
-            title: const Text('Тип будильника'),
-            subtitle: Text(alarmType == 'soft' ? 'Мягкий' : 'Стандартный'),
-            onTap: () => setState(() => alarmType = alarmType == 'soft' ? 'standard' : 'soft'),
-          ),
-          const Divider(),
-          ListTile(
-            title: const Text('Язык'),
-            subtitle: Text(language == 'ru' ? 'Русский' : 'English'),
-            onTap: () => setState(() => language = language == 'ru' ? 'en' : 'ru'),
-          ),
-          SwitchListTile(value: pushMorning, onChanged: (v) => setState(() => pushMorning = v), title: const Text('Утренние уведомления')),
-          SwitchListTile(value: pushEvening, onChanged: (v) => setState(() => pushEvening = v), title: const Text('Вечерние уведомления')),
-
-          const SizedBox(height: 12),
-          ElevatedButton(onPressed: _save, child: const Text('Сохранить изменения')),
-        ],
+  Widget _buildTimeCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required TimeOfDay time,
+    required VoidCallback onTap,
+    required Color color,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              blurRadius: 10,
+              offset: Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                icon,
+                color: color,
+                size: 30,
+              ),
+            ),
+            SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[800],
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Column(
+              children: [
+                Text(
+                  '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
+                ),
+                Text(
+                  'Нажмите для изменения',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[500],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  Future<void> _selectTime(BuildContext context, bool isMorning) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: isMorning ? _morningTime : _eveningTime,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Colors.blue,
+              onPrimary: Colors.white,
+              surface: Colors.white,
+              onSurface: Colors.black,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+      setState(() {
+        if (isMorning) {
+          _morningTime = picked;
+        } else {
+          _eveningTime = picked;
+        }
+      });
+    }
+  }
+
+  Future<void> _saveSettings() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      
+      // Сохраняем настройки времени
+      await prefs.setInt('morning_hour', _morningTime.hour);
+      await prefs.setInt('morning_minute', _morningTime.minute);
+      await prefs.setInt('evening_hour', _eveningTime.hour);
+      await prefs.setInt('evening_minute', _eveningTime.minute);
+      
+      // Отмечаем, что настройка завершена
+      await prefs.setBool('setup_complete', true);
+      
+      // Показываем сообщение об успехе
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Настройки сохранены! Все сообщения удалены.'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      
+      // Переходим на экран ожидания
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WaitingScreen(),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Ошибка при сохранении настроек'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 }
