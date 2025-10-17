@@ -1,83 +1,84 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'waiting_screen.dart';
 
-class SettingsScreen extends StatefulWidget {
+class BotSettingsScreen extends StatefulWidget {
+  const BotSettingsScreen({super.key});
+
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  State<BotSettingsScreen> createState() => _BotSettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
-  TimeOfDay _morningTime = TimeOfDay(hour: 7, minute: 0);
-  TimeOfDay _eveningTime = TimeOfDay(hour: 23, minute: 30);
+class _BotSettingsScreenState extends State<BotSettingsScreen> {
+  TimeOfDay _morningTime = const TimeOfDay(hour: 7, minute: 0);
+  TimeOfDay _eveningTime = const TimeOfDay(hour: 23, minute: 30);
   bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[50],
+      backgroundColor: const Color(0xFFFFF5EE),
       appBar: AppBar(
-        title: Text('Настройка Ватсона'),
-        backgroundColor: Colors.blue,
+        title: const Text('Настройка бота'),
+        backgroundColor: const Color(0xFFE67E6B),
         foregroundColor: Colors.white,
         elevation: 0,
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-              padding: EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Заголовок
-                  Text(
-                    'Когда получать маркетинговые уведомления?',
+                  const Text(
+                    'Когда вы хотите получать сообщения?',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.blue[800],
+                      color: Color(0xFF8B4513),
                     ),
                   ),
                   
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   
-                  Text(
-                    'Выберите удобное время для утренних и вечерних маркетинговых уведомлений',
+                  const Text(
+                    'Выберите удобное время для утренних и вечерних уведомлений',
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.grey[600],
+                      color: Color(0xFF8B4513),
                     ),
                   ),
                   
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   
                   // Утреннее время
                   _buildTimeCard(
                     icon: Icons.wb_sunny,
-                    title: 'Утренние маркетинговые уведомления',
-                    subtitle: 'Время для важных маркетинговых уведомлений',
+                    title: 'Утренние сообщения',
+                    subtitle: 'Время для важных уведомлений',
                     time: _morningTime,
                     onTap: () => _selectTime(context, true),
                     color: Colors.orange,
                   ),
                   
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   
                   // Вечернее время
                   _buildTimeCard(
                     icon: Icons.nightlight_round,
-                    title: 'Вечерние маркетинговые уведомления',
-                    subtitle: 'Время для итогов маркетинговых кампаний',
+                    title: 'Вечерние сообщения',
+                    subtitle: 'Время для итогов дня',
                     time: _eveningTime,
                     onTap: () => _selectTime(context, false),
                     color: Colors.indigo,
                   ),
                   
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   
                   // Информация о приватности
                   Container(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: Colors.green[50],
                       borderRadius: BorderRadius.circular(12),
@@ -90,12 +91,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: Colors.green[600],
                           size: 24,
                         ),
-                        SizedBox(width: 12),
-                        Expanded(
+                        const SizedBox(width: 12),
+                        const Expanded(
                           child: Text(
                             'После настройки все сообщения будут удалены для обеспечения вашей приватности',
                             style: TextStyle(
-                              color: Colors.green[700],
+                              color: Colors.green,
                               fontSize: 14,
                             ),
                           ),
@@ -104,7 +105,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   
                   // Кнопка сохранения
                   SizedBox(
@@ -113,14 +114,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: ElevatedButton(
                       onPressed: _saveSettings,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: const Color(0xFFE67E6B),
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
                         elevation: 8,
                       ),
-                      child: Text(
+                      child: const Text(
                         'Сохранить настройки',
                         style: TextStyle(
                           fontSize: 18,
@@ -146,7 +147,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -154,7 +155,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             BoxShadow(
               color: Colors.grey.withOpacity(0.1),
               blurRadius: 10,
-              offset: Offset(0, 5),
+              offset: const Offset(0, 5),
             ),
           ],
         ),
@@ -173,25 +174,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 size: 30,
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey[800],
+                      color: Color(0xFF8B4513),
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
-                      color: Colors.grey[600],
+                      color: Color(0xFF8B4513),
                     ),
                   ),
                 ],
@@ -207,11 +208,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     color: color,
                   ),
                 ),
-                Text(
+                const Text(
                   'Нажмите для изменения',
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.grey[500],
+                    color: Colors.grey,
                   ),
                 ),
               ],
@@ -229,8 +230,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Colors.blue,
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFFE67E6B),
               onPrimary: Colors.white,
               surface: Colors.white,
               onSurface: Colors.black,
@@ -261,37 +262,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
       final prefs = await SharedPreferences.getInstance();
       
       // Сохраняем настройки времени
-      await prefs.setInt('morning_hour', _morningTime.hour);
-      await prefs.setInt('morning_minute', _morningTime.minute);
-      await prefs.setInt('evening_hour', _eveningTime.hour);
-      await prefs.setInt('evening_minute', _eveningTime.minute);
+      await prefs.setInt('bot_morning_hour', _morningTime.hour);
+      await prefs.setInt('bot_morning_minute', _morningTime.minute);
+      await prefs.setInt('bot_evening_hour', _eveningTime.hour);
+      await prefs.setInt('bot_evening_minute', _eveningTime.minute);
       
-      // Отмечаем, что настройка завершена
-      await prefs.setBool('setup_complete', true);
+      // Отмечаем, что настройка бота завершена
+      await prefs.setBool('bot_setup_complete', true);
       
       // Показываем сообщение об успехе
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Настройки Ватсона сохранены! Все сообщения удалены.'),
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 2),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Настройки бота сохранены! Все сообщения удалены.'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
       
       // Переходим на экран ожидания
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => WaitingScreen(),
-        ),
-      );
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/bot_waiting');
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Ошибка при сохранении настроек'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Ошибка при сохранении настроек'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     } finally {
       setState(() {
         _isLoading = false;

@@ -6,6 +6,9 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'screens/bot_welcome_screen.dart';
+import 'screens/bot_settings_screen.dart';
+import 'screens/bot_waiting_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +33,11 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Nunito',
       ),
       home: isFirstRun ? const OnboardingScreen() : const HomeScreen(),
+      routes: {
+        '/bot_welcome': (context) => const BotWelcomeScreen(),
+        '/bot_settings': (context) => const BotSettingsScreen(),
+        '/bot_waiting': (context) => const BotWaitingScreen(),
+      },
     );
   }
 }
@@ -296,6 +304,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 ),
                 child: const Text("Как ты? 😊 😐 😞"),
+              ),
+              const SizedBox(height: 12),
+              OutlinedButton.icon(
+                onPressed: () => Navigator.pushNamed(context, '/bot_welcome'),
+                icon: const Icon(Icons.smart_toy),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color(0xFFE67E6B),
+                  side: const BorderSide(color: Color(0xFFE67E6B)),
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                ),
+                label: const Text("Запустить бота 🤖"),
               ),
               const SizedBox(height: 40),
             ],
