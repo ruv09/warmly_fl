@@ -6,6 +6,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'screens/ai_chat_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,12 +25,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Warmly',
+      title: 'Вселенная',
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFFFF5EE),
         fontFamily: 'Nunito',
       ),
       home: isFirstRun ? const OnboardingScreen() : const HomeScreen(),
+      routes: {
+        '/home': (context) => const HomeScreen(),
+        '/mood': (context) => const MoodScreen(),
+        '/send': (context) => const SendScreen(),
+        '/archive': (context) => const ArchiveScreen(),
+        '/settings': (context) => const SettingsScreen(),
+        '/ai': (context) => const AiChatScreen(),
+      },
     );
   }
 }
@@ -54,13 +63,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         onPageChanged: (index) => setState(() => _currentPage = index),
         children: [
           OnboardingStep(
-            title: "ТыКлассный. Просто будучи собой 🤍",
-            subtitle: "Warmly — твоё ежедневное напоминание: ты достаточно хорош. Прямо сейчас.",
+            title: "Добро пожаловать во Вселенную 🌌",
+            subtitle: "Вселенная — твой персональный помощник, который подбадривает и мотивирует каждый день.",
             buttonText: "Начнём",
             onPressed: () => _controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease),
           ),
-          TimeZoneStep(onNext: () => _controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease)),
-          SleepTimeStep(onNext: () => _controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease)),
+          WelcomeStep(onNext: () => _controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease)),
+          AiIntroStep(onNext: () => _controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease)),
           const AlarmStep(),
         ],
       ),
@@ -119,8 +128,8 @@ class OnboardingStep extends StatelessWidget {
     final tomorrow = DateTime(now.year, now.month, now.day + 1, 7, 30);
     await NotificationService.scheduleNotification(
       id: 1,
-      title: "Warmly",
-      body: "Доброе утро 🌞 Ты уже сделал самое сложное — проснулся.",
+      title: "Вселенная",
+      body: "Доброе утро 🌞 Вселенная верит в тебя! Сегодня будет отличный день.",
       scheduledTime: tomorrow,
     );
     Navigator.pushAndRemoveUntil(
@@ -131,30 +140,30 @@ class OnboardingStep extends StatelessWidget {
   }
 }
 
-class TimeZoneStep extends StatelessWidget {
+class WelcomeStep extends StatelessWidget {
   final VoidCallback onNext;
-  const TimeZoneStep({super.key, required this.onNext});
+  const WelcomeStep({super.key, required this.onNext});
 
   @override
   Widget build(BuildContext context) {
     return OnboardingStep(
-      title: "🌍 В каком ты часовом поясе?",
-      subtitle: "Выбери автоматически — или укажи вручную",
+      title: "🌌 Добро пожаловать во Вселенную!",
+      subtitle: "Я буду подбадривать тебя каждый день в 8:00 утра и 22:00 вечера",
       buttonText: "Дальше",
       onPressed: onNext,
     );
   }
 }
 
-class SleepTimeStep extends StatelessWidget {
+class AiIntroStep extends StatelessWidget {
   final VoidCallback onNext;
-  const SleepTimeStep({super.key, required this.onNext});
+  const AiIntroStep({super.key, required this.onNext});
 
   @override
   Widget build(BuildContext context) {
     return OnboardingStep(
-      title: "🌙 Во сколько ты обычно ложишься спать?",
-      subtitle: "Мы будем желать тебе спокойной ночи за 10 минут до этого времени",
+      title: "🤖 У меня есть AI-помощник!",
+      subtitle: "Задавай любые вопросы - я помогу принимать решения четко и ясно",
       buttonText: "Дальше",
       onPressed: onNext,
     );
@@ -167,21 +176,21 @@ class AlarmStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OnboardingStep(
-      title: "🌅 Хочешь, чтобы мы будили тебя тёплым словом?",
-      subtitle: "Мы будем будить тебя в это время с мотивацией и комплиментом.",
-      buttonText: "Готово — показать Warmly!",
+      title: "🌅 Хочешь получать мотивационные сообщения?",
+      subtitle: "Вселенная будет подбадривать тебя каждый день в 8:00 утра и 22:00 вечера.",
+      buttonText: "Готово — показать Вселенную!",
       onPressed: () {
         final prefs = SharedPreferences.getInstance();
         prefs.then((p) async {
           await p.setBool('isFirstRun', false);
-          await p.setString('alarm_time', '07:30');
-          await p.setBool('alarm_enabled', true);
+          await p.setBool('push_morning', true);
+          await p.setBool('push_evening', true);
           final now = DateTime.now();
-          final tomorrow = DateTime(now.year, now.month, now.day + 1, 7, 30);
+          final tomorrow = DateTime(now.year, now.month, now.day + 1, 8, 0);
           await NotificationService.scheduleNotification(
             id: 1,
-            title: "Warmly",
-            body: "Доброе утро 🌞 Ты уже сделал самое сложное — проснулся.",
+        title: "Вселенная",
+        body: "Доброе утро 🌞 Вселенная верит в тебя! Сегодня будет отличный день.",
             scheduledTime: tomorrow,
           );
         });
@@ -200,7 +209,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final String _phrase = "Ты уже сделал самое сложное — проснулся. Остальное — детали.";
+  final String _phrase = "Вселенная верит в тебя! 🌟 Сегодня ты можешь всё, что захочешь.";
   late Future<Map<String, String>> _i18n;
 
   @override
@@ -252,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(t('good_morning'), style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              Text('Добро пожаловать во Вселенную!', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
               const SizedBox(height: 24),
               Text(
                 _phrase,
@@ -297,22 +306,38 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: const Text("Как ты? 😊 😐 😞"),
               ),
+              const SizedBox(height: 12),
+              ElevatedButton(
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AiChatScreen())),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF6A4C93),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                ),
+                child: const Text("Поговорить с Вселенной 🌌"),
+              ),
               const SizedBox(height: 40),
             ],
           ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Домой"),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Вселенная"),
           BottomNavigationBarItem(icon: Icon(Icons.book), label: "Архив"),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Настройки"),
         ],
         onTap: (index) {
           if (index == 1) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const ArchiveScreen()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const AiChatScreen()));
           }
           if (index == 2) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const ArchiveScreen()));
+          }
+          if (index == 3) {
             Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
           }
         },
@@ -370,7 +395,7 @@ class NotificationService {
   }) async {
     final androidDetails = AndroidNotificationDetails(
       'warmly_channel',
-      'Warmly Notifications',
+      'Вселенная Notifications',
       channelDescription: 'Тёплые слова для тебя',
       priority: Priority.high,
       importance: Importance.high,
@@ -620,12 +645,9 @@ class _SettingsWithTimesState extends State<_SettingsWithTimes> {
       _morningOn = p.getBool('push_morning') ?? true;
       _eveningOn = p.getBool('push_evening') ?? true;
       _lang = p.getString('lang') ?? 'ru';
-      final mh = p.getInt('morning_h') ?? 8;
-      final mm = p.getInt('morning_m') ?? 0;
-      final eh = p.getInt('evening_h') ?? 22;
-      final em = p.getInt('evening_m') ?? 0;
-      _morning = TimeOfDay(hour: mh, minute: mm);
-      _evening = TimeOfDay(hour: eh, minute: em);
+      // Фиксированное время для уведомлений
+      _morning = const TimeOfDay(hour: 8, minute: 0);
+      _evening = const TimeOfDay(hour: 22, minute: 0);
     });
   }
 
@@ -633,20 +655,17 @@ class _SettingsWithTimesState extends State<_SettingsWithTimes> {
     final p = await SharedPreferences.getInstance();
     await p.setBool('push_morning', _morningOn);
     await p.setBool('push_evening', _eveningOn);
-    await p.setInt('morning_h', _morning.hour);
-    await p.setInt('morning_m', _morning.minute);
-    await p.setInt('evening_h', _evening.hour);
-    await p.setInt('evening_m', _evening.minute);
+    // Время фиксированное, не сохраняем
 
-    // рескейджулинг
+    // рескейджулинг с фиксированным временем
     if (_morningOn) {
       final now = DateTime.now();
-      var next = DateTime(now.year, now.month, now.day, _morning.hour, _morning.minute);
+      var next = DateTime(now.year, now.month, now.day, 8, 0); // Фиксированное время 8:00
       if (next.isBefore(now)) next = next.add(const Duration(days: 1));
       await NotificationService.scheduleNotification(
         id: 100,
-        title: 'Warmly',
-        body: 'Доброе утро 🌞 Ты достаточно хорош — уже сейчас.',
+        title: 'Вселенная',
+        body: 'Доброе утро 🌞 Вселенная верит в тебя! Сегодня будет отличный день.',
         scheduledTime: next,
       );
     } else {
@@ -655,12 +674,12 @@ class _SettingsWithTimesState extends State<_SettingsWithTimes> {
 
     if (_eveningOn) {
       final now = DateTime.now();
-      var next = DateTime(now.year, now.month, now.day, _evening.hour, _evening.minute);
+      var next = DateTime(now.year, now.month, now.day, 22, 0); // Фиксированное время 22:00
       if (next.isBefore(now)) next = next.add(const Duration(days: 1));
       await NotificationService.scheduleNotification(
         id: 200,
-        title: 'Warmly',
-        body: 'Спокойной ночи 🌙 Ты сделал достаточно. Отдых важен.',
+        title: 'Вселенная',
+        body: 'Спокойной ночи 🌙 Вселенная гордится тобой. Отдыхай с миром.',
         scheduledTime: next,
       );
     } else {
@@ -712,24 +731,14 @@ class _SettingsWithTimesState extends State<_SettingsWithTimes> {
             value: _morningOn,
             onChanged: (v) => setState(() => _morningOn = v),
             title: const Text('Утреннее уведомление'),
-            subtitle: Text('Время: ${_morning.format(context)}'),
-          ),
-          ListTile(
-            title: const Text('Выбрать время утра'),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: _pickMorning,
+            subtitle: const Text('Время: 08:00 (фиксированное)'),
           ),
           const Divider(),
           SwitchListTile(
             value: _eveningOn,
             onChanged: (v) => setState(() => _eveningOn = v),
             title: const Text('Вечернее уведомление'),
-            subtitle: Text('Время: ${_evening.format(context)}'),
-          ),
-          ListTile(
-            title: const Text('Выбрать время вечера'),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: _pickEvening,
+            subtitle: const Text('Время: 22:00 (фиксированное)'),
           ),
           const SizedBox(height: 16),
           ElevatedButton(

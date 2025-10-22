@@ -29,25 +29,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String _greeting() {
     final h = TimeOfDay.now().hour;
-    if (h >= 5 && h < 12) return 'Доброе утро 🌞';
-    if (h >= 20 || h < 5) return 'Спокойной ночи 🌙';
-    return 'Тёплого дня ✨';
+    if (h >= 5 && h < 12) return 'Доброе утро от Вселенной 🌞';
+    if (h >= 20 || h < 5) return 'Спокойной ночи от Вселенной 🌙';
+    return 'Тёплого дня от Вселенной ✨';
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Warmly'), centerTitle: true),
+      appBar: AppBar(title: const Text('Вселенная'), centerTitle: true, backgroundColor: const Color(0xFF6A4C93)),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Домой'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Вселенная'),
           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Архив'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Настройки'),
         ],
         currentIndex: 0,
         onTap: (i) {
-          if (i == 1) Navigator.pushNamed(context, '/archive');
-          if (i == 2) Navigator.pushNamed(context, '/settings');
+          if (i == 1) Navigator.pushNamed(context, '/ai');
+          if (i == 2) Navigator.pushNamed(context, '/archive');
+          if (i == 3) Navigator.pushNamed(context, '/settings');
         },
       ),
       body: Padding(
@@ -81,7 +84,12 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 8),
             ElevatedButton(
               onPressed: () => Navigator.pushNamed(context, '/send'),
-              child: const Text('Поделиться теплом 💌'),
+              child: const Text('Поделиться посланием от Вселенной 💌'),
+            ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/ai'),
+              child: const Text('Поговорить с Вселенной 🌌'),
             ),
           ],
         ),
@@ -91,19 +99,19 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 const _phrasesMorning = [
-  'Сегодня можно идти мягко. Ты не обязан спешить.',
-  'Ты уже сделал главное — проснулся. Это достаточно.',
-  'Доброе утро. Твоя ценность не зависит от достижений.',
+  'Вселенная верит в тебя! Сегодня будет отличный день! 🌟',
+  'Ты можешь всё, что захочешь! Вселенная поддерживает тебя! ✨',
+  'Доброе утро! Сегодня Вселенная приготовила для тебя чудеса! 🌈',
 ];
 
 const _phrasesDay = [
-  'Сделай вдох. Ты имеешь право на паузу.',
-  'Если тяжело — это нормально. Ты не один.',
-  'Ты достаточно хорош просто тем, что есть.',
+  'Вселенная шепчет: ты сильнее, чем думаешь! 💪',
+  'Каждый момент - это подарок от Вселенной. Цени его! 🎁',
+  'Вселенная создала тебя уникальным. Используй эту силу! 🌌',
 ];
 
 const _phrasesEvening = [
-  'Сегодня ты сделал достаточно. Отдых — тоже достижение.',
-  'Спасибо себе за этот день. Ты справился.',
-  'Ночь — чтобы мягко отпустить. Спокойной тебе тишины.',
+  'Вселенная гордится тобой! Ты сделал всё возможное! 🌙',
+  'Спокойной ночи! Завтра Вселенная приготовит новые возможности! 🌠',
+  'Отдыхай с миром! Ты заслужил покой и счастье! 💫',
 ];

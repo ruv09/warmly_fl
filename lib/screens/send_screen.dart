@@ -18,14 +18,14 @@ class _SendScreenState extends State<SendScreen> {
   }
 
   void sharePhrase(String text) {
-    final message = 'Тебе прислали тёплое слово ❤️\n"$text"\n— via Warmly';
+    final message = 'Тебе прислали послание от Вселенной 🌌\n"$text"\n— via Вселенная';
     Share.share(message);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Поделись теплом')),
+      appBar: AppBar(title: const Text('Поделись посланием от Вселенной'), backgroundColor: const Color(0xFF6A4C93)),
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: min(5, pool.length),
@@ -44,9 +44,9 @@ class _SendScreenState extends State<SendScreen> {
 }
 
 const _friendPhrases = [
-  'Ты важен. Даже если сейчас так не кажется.',
-  'Пусть этот день будет мягче к тебе.',
-  'Ты делаешь больше, чем думаешь.',
-  'Береги себя. Ты достоин заботы.',
-  'Если тяжело — можно быть неидеальным.',
+  'Вселенная верит в тебя! Ты можешь всё! 🌟',
+  'Ты - звезда во Вселенной! Сияй ярче! ✨',
+  'Вселенная создала тебя особенным. Помни об этом! 🌌',
+  'Каждый день - это подарок от Вселенной. Цени его! 🎁',
+  'Вселенная обнимает тебя в трудные моменты! 🤗',
 ];

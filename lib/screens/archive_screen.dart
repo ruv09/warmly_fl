@@ -35,9 +35,9 @@ class _ArchiveScreenState extends State<ArchiveScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Мои тёплые слова')),
+      appBar: AppBar(title: const Text('Мои послания от Вселенной'), backgroundColor: const Color(0xFF6A4C93)),
       body: items.isEmpty
-          ? const Center(child: Text('Здесь будут жить твои любимые фразы. Нажми ❤️, чтобы сохранить.'))
+          ? const Center(child: Text('Здесь будут жить твои любимые послания от Вселенной. Нажми ❤️, чтобы сохранить.'))
           : ListView.builder(
               padding: const EdgeInsets.all(16),
               itemCount: items.length,
