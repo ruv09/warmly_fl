@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../services/sound_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -12,6 +13,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String language = 'ru';
   bool pushMorning = true;
   bool pushEvening = true;
+  bool soundsEnabled = true;
 
   @override
   void initState() {
@@ -25,7 +27,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       language = p.getString('lang') ?? 'ru';
       pushMorning = p.getBool('push_morning') ?? true;
       pushEvening = p.getBool('push_evening') ?? true;
+      soundsEnabled = p.getBool('sounds_enabled') ?? true;
     });
+    SoundService().setEnabled(soundsEnabled);
   }
 
   Future<void> _save() async {
@@ -33,6 +37,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await p.setString('lang', language);
     await p.setBool('push_morning', pushMorning);
     await p.setBool('push_evening', pushEvening);
+    await p.setBool('sounds_enabled', soundsEnabled);
+    SoundService().setEnabled(soundsEnabled);
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Сохранено')));
     }
@@ -65,6 +71,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             title: const Text('Язык'),
             subtitle: Text(language == 'ru' ? 'Русский' : 'English'),
             onTap: () => setState(() => language = language == 'ru' ? 'en' : 'ru'),
+          ),
+          SwitchListTile(
+            value: soundsEnabled,
+            onChanged: (v) => setState(() => soundsEnabled = v),
+            title: const Text('Звуки'),
+            subtitle: const Text('Космические звуки и эффекты'),
           ),
 
           const SizedBox(height: 12),

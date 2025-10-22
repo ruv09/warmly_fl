@@ -1,5 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import '../widgets/cosmic_animations.dart';
+import '../services/sound_service.dart';
+import 'stats_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,6 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _loadPhrase();
+    // Воспроизводим космический звук при загрузке
+    SoundService().playCosmicSound();
   }
 
   void _loadPhrase() {
@@ -61,35 +66,87 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(_greeting(), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
             const SizedBox(height: 16),
             Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Center(
-                  child: Text(
-                    phrase,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+              child: CosmicAnimations.cosmicGlow(
+                child: CosmicAnimations.floatingMessage(
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF6A4C93).withOpacity(0.2),
+                          blurRadius: 20,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        phrase,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 20, 
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/mood'),
-              child: const Text('Как ты? 😊 😐 😞'),
+            CosmicAnimations.pulsatingButton(
+              child: ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, '/mood'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF6A4C93),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                ),
+                child: const Text('Как ты? 😊 😐 😞'),
+              ),
             ),
             const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/send'),
-              child: const Text('Поделиться посланием от Вселенной 💌'),
+            CosmicAnimations.pulsatingButton(
+              child: ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, '/send'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF6A4C93),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                ),
+                child: const Text('Поделиться посланием от Вселенной 💌'),
+              ),
             ),
             const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/ai'),
-              child: const Text('Поговорить с Вселенной 🌌'),
+            CosmicAnimations.pulsatingButton(
+              child: ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, '/ai'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF6A4C93),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                ),
+                child: const Text('Поговорить с Вселенной 🌌'),
+              ),
+            ),
+            const SizedBox(height: 8),
+            CosmicAnimations.pulsatingButton(
+              child: ElevatedButton(
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const StatsScreen())),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF6A4C93),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                ),
+                child: const Text('Твоя статистика 📊'),
+              ),
             ),
           ],
         ),

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../widgets/cosmic_animations.dart';
+import '../services/sound_service.dart';
 
 class AiChatScreen extends StatefulWidget {
   const AiChatScreen({super.key});
@@ -43,6 +46,12 @@ class _AiChatScreenState extends State<AiChatScreen> {
 
     _messageController.clear();
 
+    // Обновляем статистику
+    await _updateStats();
+
+    // Воспроизводим звук сообщения
+    SoundService().playMessageSound();
+
     try {
       final response = await _getAiResponse(text);
       setState(() {
@@ -62,6 +71,47 @@ class _AiChatScreenState extends State<AiChatScreen> {
         ));
         _isLoading = false;
       });
+    }
+  }
+
+  Future<void> _updateStats() async {
+    final prefs = await SharedPreferences.getInstance();
+    final totalMessages = (prefs.getInt('total_messages') ?? 0) + 1;
+    final aiConversations = (prefs.getInt('ai_conversations') ?? 0) + 1;
+    
+    await prefs.setInt('total_messages', totalMessages);
+    await prefs.setInt('ai_conversations', aiConversations);
+    
+    // Проверяем достижения
+    if (aiConversations == 1) {
+      await _addAchievement('Первое общение с Вселенной 🌟');
+    } else if (aiConversations == 10) {
+      await _addAchievement('10 разговоров с Вселенной 🚀');
+    } else if (aiConversations == 50) {
+      await _addAchievement('50 разговоров с Вселенной 🌌');
+    } else if (aiConversations == 100) {
+      await _addAchievement('100 разговоров с Вселенной ⭐');
+    }
+  }
+
+  Future<void> _addAchievement(String achievement) async {
+    final prefs = await SharedPreferences.getInstance();
+    final achievements = prefs.getStringList('achievements') ?? [];
+    if (!achievements.contains(achievement)) {
+      achievements.add(achievement);
+      await prefs.setStringList('achievements', achievements);
+      
+      if (mounted) {
+        // Воспроизводим звук достижения
+        SoundService().playAchievementSound();
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('🎉 Новое достижение: $achievement'),
+            backgroundColor: const Color(0xFF6A4C93),
+          ),
+        );
+      }
     }
   }
 
@@ -126,12 +176,14 @@ class _AiChatScreenState extends State<AiChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Чат с Вселенной 🌌'),
-        backgroundColor: const Color(0xFF6A4C93),
-        foregroundColor: Colors.white,
-      ),
+    return CosmicAnimations.cosmicBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: const Text('Чат с Вселенной 🌌'),
+          backgroundColor: const Color(0xFF6A4C93),
+          foregroundColor: Colors.white,
+        ),
       body: Column(
         children: [
           Expanded(
@@ -194,46 +246,52 @@ class _AiChatScreenState extends State<AiChatScreen> {
   }
 
   Widget _buildMessage(ChatMessage message) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        mainAxisAlignment: message.isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
-        children: [
-          if (!message.isUser) ...[
-            CircleAvatar(
-              radius: 16,
-              backgroundColor: const Color(0xFF6A4C93),
-              child: const Text('🌌', style: TextStyle(fontSize: 16)),
-            ),
-            const SizedBox(width: 8),
-          ],
-          Flexible(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                color: message.isUser 
-                    ? const Color(0xFF6A4C93) 
-                    : Colors.grey[100],
-                borderRadius: BorderRadius.circular(20),
+    return CosmicAnimations.floatingMessage(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Row(
+          mainAxisAlignment: message.isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+          children: [
+            if (!message.isUser) ...[
+              CosmicAnimations.twinklingStar(
+                child: CircleAvatar(
+                  radius: 16,
+                  backgroundColor: const Color(0xFF6A4C93),
+                  child: const Text('🌌', style: TextStyle(fontSize: 16)),
+                ),
               ),
-              child: Text(
-                message.text,
-                style: TextStyle(
-                  color: message.isUser ? Colors.white : Colors.black87,
-                  fontSize: 16,
+              const SizedBox(width: 8),
+            ],
+            Flexible(
+              child: CosmicAnimations.cosmicGlow(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: message.isUser 
+                        ? const Color(0xFF6A4C93) 
+                        : Colors.grey[100],
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    message.text,
+                    style: TextStyle(
+                      color: message.isUser ? Colors.white : Colors.black87,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-          if (message.isUser) ...[
-            const SizedBox(width: 8),
-            CircleAvatar(
-              radius: 16,
-              backgroundColor: Colors.grey[300],
-              child: const Icon(Icons.person, size: 16, color: Colors.white),
-            ),
+            if (message.isUser) ...[
+              const SizedBox(width: 8),
+              CircleAvatar(
+                radius: 16,
+                backgroundColor: Colors.grey[300],
+                child: const Icon(Icons.person, size: 16, color: Colors.white),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

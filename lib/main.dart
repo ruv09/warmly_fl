@@ -7,6 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'screens/ai_chat_screen.dart';
+import 'screens/stats_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         '/archive': (context) => const ArchiveScreen(),
         '/settings': (context) => const SettingsScreen(),
         '/ai': (context) => const AiChatScreen(),
+        '/stats': (context) => const StatsScreen(),
       },
     );
   }
