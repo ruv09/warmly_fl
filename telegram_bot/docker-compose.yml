@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  warmly-bot:
+    build: .
+    container_name: warmly-telegram-bot
+    restart: unless-stopped
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+    volumes:
+      - ./data:/app/data
+    env_file:
+      - .env
+
+  # Опционально: база данных PostgreSQL
+  postgres:
+    image: postgres:15
+    container_name: warmly-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: warmly_bot
+      POSTGRES_USER: warmly
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
